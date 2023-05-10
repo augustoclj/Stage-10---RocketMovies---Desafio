@@ -7,6 +7,7 @@ export function Button({icon: Icon, title , disabled = false, deleting, ...rest}
       type="button"
       disabled={disabled}
       deleting={deleting}
+      {...rest}
     >
     { Icon && <Icon size={20} /> }
     {title}

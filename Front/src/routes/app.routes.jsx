@@ -9,8 +9,8 @@ export function AppRoutes(){
   return(
     <Routes>
       <Route path="/" element={ <Home/> }/>
+      <Route path="/preview/:id" element={ <MoviePreview/> }/>
       <Route path="/profile" element={ <Profile/> }/>
-      <Route path="/preview" element={ <MoviePreview/> }/>
       <Route path="/create" element={ <CreateMovie/> }/>
     </Routes>
   );

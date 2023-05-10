@@ -12,7 +12,7 @@ class Movie_NotesController{
       throw new AppError("O campo rating deve ser preenchido com valores entre 1 e 5")
     }
 
-    const note_id = await knex("movie_notes").insert({
+    const [note_id] = await knex("movie_notes").insert({
       title,
       description,
       rating, 
@@ -53,39 +53,41 @@ class Movie_NotesController{
     return response.json();
   }
 
-  async index(request, response){
-    const { tags, title } = request.query;
-    const user_id = request.user.id;
-    
-    let movie_notes
+  async index(request, response) {
+    const { title, tags } = request.query
 
-    if(tags){
+    const user_id = request.user.id
+
+    let notes
+
+    if (tags) {
       const filterTags = tags.split(',').map(tag => tag.trim())
 
-      movie_notes = await knex("movie_tags")
-      .select([
-        "movie_notes.id",
-        "movie_notes.title",
-        "movie_notes.rating",
-        "movie_tags.name"
-      ])
-      .where("movie_notes.user_id", user_id)
-      .whereLike("movie_notes.title", `%${title}%`)
-      .whereIn("name", filterTags)
-      .innerJoin("movie_notes", "movie_notes.id", "movie_tags.note_id")
-      .orderBy("movie_notes.title")
-
-
-    }else{
-      movie_notes = await knex("movie_notes")
-      .where({ user_id })
-      .whereLike("title", `%${title}%`)
-      .orderBy("title")
+      notes = await knex('movie_tags')
+        .select(['notes.id', 'notes.title', 'notes.user_id'])
+        .where('notes.user_id', user_id)
+        .whereLike('notes.title', `%${title}%`)
+        .whereIn('name', filterTags)
+        .innerJoin('notes', 'notes.id', 'tags.note_id')
+        .groupBy('notes.id')
+        .orderBy('notes.title')
+    } else {
+      notes = await knex('movie_notes').where({ user_id })
     }
 
-    return response.json(movie_notes);
+    const userTags = await knex('movie_tags').where({ user_id })
+    const notesWithTags = notes.map(note => {
+      const noteTags = userTags.filter(tag => tag.note_id === note.id)
 
+      return {
+        ...note,
+        movie_tags: noteTags
+      }
+    })
+
+    return response.json(notesWithTags)
   }
+
 }
 
 module.exports = Movie_NotesController;

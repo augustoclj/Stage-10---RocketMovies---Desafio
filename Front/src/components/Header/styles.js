@@ -22,13 +22,32 @@ export const Container = styled.header`
     color: ${({ theme }) => theme.COLORS.PINK_100};
   }
 
+  >div{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end
+  }
+
+  button{
+      position: relative;
+      margin-top: -20px;
+      margin-right: 65px;
+      height: auto;
+      width: 30px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      color: ${({ theme }) => theme.COLORS.GRAY_100};
+      background-color: transparent;
+    }
+
 `;
 
 export const Profile = styled(Link)`
 
   display: flex;
   align-items: center;
-  
+  gap: 8px;
 
   > img{
     width: 64px;
@@ -37,25 +56,19 @@ export const Profile = styled(Link)`
     border: 2px solid ${({ theme }) => theme.COLORS.HEADER_BORDER};
   }
 
-  > div{
-    display: flex;
-    flex-direction: column;
-    margin-right: 9px;
-    text-align: right;
-
     span{
+
+      //limite caracteres nome
+      max-width: 30ch;
+      overflow: hidden;
+      text-overflow: none;
+      white-space: nowrap;
+
       min-width: 130px;
       font-size: 14px;
       font-weight: 700;
       color: ${({ theme }) => theme.COLORS.WHITE};
+      text-align: right;
     }
-
-    a{
-      font-size: 14px;
-      font-weight: 500;
-      text-decoration: none;
-      color: ${({ theme }) => theme.COLORS.GRAY_100};
-    }
-  }
 
 `;

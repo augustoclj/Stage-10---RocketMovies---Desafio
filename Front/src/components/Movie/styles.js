@@ -1,28 +1,28 @@
 import styled from "styled-components";
 
 
-export const Container = styled.div`
-  min-width:90%;
+export const Container = styled.button`
+  width:100%;
   padding: 32px;
   background-color: ${({ theme }) => theme.COLORS.PINK_100_005};
   border-radius: 10px;
+  border: none;
   //padding: 22px;
   //padding: 24px 120px 24px 120px;
   margin-bottom: 25px;
+  text-align: left;
 
   > h2{
+    display: inline-block;
     flex: 1;
+    min-width:50px;
+    max-width: 500px;
     text-align: left;
     font-weight: 700;
     font-size: 24px;
     color: ${({ theme }) => theme.COLORS.WHITE};
-
-    a{
-      color: ${({ theme }) => theme.COLORS.WHITE};
-      text-decoration: none;
-    }
   }
-
+  
   p{
     /**Configurações para limitação do tamanho da sinopse do filme em 2 linhas */
     overflow: hidden;
